@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1 class="logo"><a href="http://127.0.0.1:5501/Movie/">TMDB</a></h1>
+        <form class="search">
+            <input type="text" placeholder="Movies" class="searchTerm">
+            <input type="submit" value="" class="searchBtn"><i class="fa-solid fa-magnifying-glass searchBtn"></i>
+        </form>
+    </header>
+    <ul class="movie-list">
+    </ul>
+    <div class="popup-container hidden">
+        <div class="popup">
+            <button class="popup-close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="movie-details-container">
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
