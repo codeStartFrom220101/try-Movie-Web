@@ -14,6 +14,13 @@
 </head>
 
 <body>
+    <div class="trailer-container hidden">
+        <button class="trailer-close"><i class="fa-solid fa-xmark"></i></button>
+        <iframe class="" width="1280" height="720" src="https://www.youtube.com/embed/Rf8LAYJSOL8"
+            title="Marvel Studios’ Doctor Strange in the Multiverse of Madness | Final Trailer" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
     <header>
         <h1 class="logo"><a href="http://127.0.0.1:5501/Movie/">TMDB</a></h1>
         <form class="search">
@@ -26,8 +33,10 @@
     <div class="popup-container hidden">
         <div class="popup">
             <button class="popup-close"><i class="fa-solid fa-xmark"></i></button>
-            <div class="movie-details-container">
-                
+            <button class="trailer-btn"><i class="fa-solid fa-video"></i> Final Trailer</button>
+
+            <div class="movie-details-container" data-id="">
+
             </div>
         </div>
     </div>

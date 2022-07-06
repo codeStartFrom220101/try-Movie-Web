@@ -6,13 +6,16 @@ const movieList = document.querySelector('.movie-list');
 const search = document.querySelector('.search');
 const searchTerm = document.querySelector('.searchTerm');
 const popupClose = document.querySelector('.popup-close');
-const popupContainer = document.querySelector('.popup-container')
-const movieDetails = document.querySelector('.movie-details-container')
+const popupContainer = document.querySelector('.popup-container');
+const movieDetails = document.querySelector('.movie-details-container');
+const trailerBtn = document.querySelector('.trailer-btn');
+const trailerContainer = document.querySelector('.trailer-container');
 
 async function getTMDBData(url) {
     const resp = await fetch(url)
     const respData = await resp.json();
     showMovies(respData.results);
+    return respData;
 }
 
 async function getTMDBDataById(url) {
@@ -20,6 +23,8 @@ async function getTMDBDataById(url) {
     const respData = await resp.json();
     return respData;
 }
+
+
 
 
 
@@ -61,7 +66,7 @@ function getClassByRate(point) {
 
 search.addEventListener('submit', searchMovies)
 
-function searchMovies(e){
+function searchMovies(e) {
     e.preventDefault();
     const term = searchTerm.value;
     console.log(term);
@@ -86,20 +91,29 @@ popupClose.addEventListener('click', () => {
 })
 
 movieList.addEventListener('click', (e) => {
-    if(e.target.nodeName !== "IMG"){
+    if (e.target.nodeName !== "IMG") {
         return;
     }
     const id = e.target.closest('img').dataset.id
     showPopup(id);
 })
 
-async function showPopup(id){
-    const SEARCHIDAPI = `https://api.themoviedb.org/3/movie/${id}?api_key=d0971917ed87f0e2070a34523ce6a2fc&append_to_response=credits`
+async function showPopup(id) {
+    const SEARCHIDAPI = `https://api.themoviedb.org/3/movie/${id}?api_key=d0971917ed87f0e2070a34523ce6a2fc&append_to_response=credits`;
     const movie = await getTMDBDataById(SEARCHIDAPI);
-    const { poster_path, backdrop_path, title, overview, genres, credits, vote_average, vote_count } = movie
-    console.log(movie);
-    console.log(genres);
-    popupContainer.classList.remove('hidden')
+    console.log(id);
+    const {
+        poster_path,
+        backdrop_path,
+        title,
+        overview,
+        genres,
+        credits,
+        vote_average,
+        vote_count
+    } = movie;
+    popupContainer.classList.remove('hidden');
+    movieDetails.dataset.id = id;
     movieDetails.innerHTML = `
         <div class="img" style="background-image:linear-gradient(to bottom, rgba(0,0,0,0), #22254b), url('${IMGPATH + backdrop_path}');">
         </div>
@@ -139,6 +153,31 @@ async function showPopup(id){
             </div>
         </div>
     `
+
+    trailerBtn.addEventListener('click', async () => {
+        console.log(movie);
+        const id = movie.id;
+        const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=d0971917ed87f0e2070a34523ce6a2fc`;
+        const allVideo = await getTMDBDataById(url);
+        let trailer = allVideo.results.filter(video => video.type === "Trailer");
+        trailer = trailer[0];
+        console.log(trailer);
+        trailerContainer.classList.remove('hidden');
+        trailerContainer.innerHTML = `
+            <button class="trailer-close"><i class="fa-solid fa-xmark"></i></button>
+            <iframe class="" width="1280" height="720" src="https://www.youtube.com/embed/${trailer.key}"
+                title="${title} | Final Trailer" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        `
+
+        const trailerClose = trailerContainer.querySelector('.trailer-close');
+        trailerClose.addEventListener('click', () => {
+            trailerContainer.innerHTML = "";
+            trailerContainer.classList.add('hidden');
+        })
+
+    })
 }
 
 // ${genres.forEach(genre => `<span>${genre.name}</span>`)}
