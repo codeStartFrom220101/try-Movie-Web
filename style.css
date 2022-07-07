@@ -115,7 +115,7 @@ header {
 }
 
 .movies-container .sidebarBtn{
-    position: absolute;
+    position: fixed;
     left: 0;
     height: 2rem;
     color: white;
@@ -127,6 +127,9 @@ header {
 }
 
 .sidebar{
+    position: fixed;
+    left: -150px;
+    transition: 1s;
     margin: 0;
     padding: 0;
     min-width: 150px;
@@ -138,12 +141,6 @@ header {
 }
 
 @media (max-width: 600px) {
-    .sidebar{
-        position: absolute;
-        left: -150px;
-        transition: 1s;
-    }
-
     .sidebar.active{
         left: 0;
     }
@@ -461,7 +458,7 @@ header {
 }
 
 .actor li{
-    margin-right: 2%;
+    margin-right: 5%;
 }
 
 .actor li img{
@@ -484,17 +481,17 @@ header {
 
 @media (max-width: 600px) {
     .actor li{
-        margin-right: 4%;
+        margin-right: 10%;
     }
 
-    .actor li img{
+    /* .actor li img{
         width: 60px;
         height: 60px;
     }
 
     .actor li h5{
         width: 60px;
-    }
+    } */
 }
 
 [class^="show_rated_"]{

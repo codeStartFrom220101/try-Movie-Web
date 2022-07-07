@@ -192,7 +192,7 @@ async function showPopup(id) {
                     </ul>
                 </div>
                 <div class="similar">
-                    <h4>Similar !!!</h4>
+                    <h4>You Might Also Like</h4>
                     <ul class="similar-movie">
                         ${await getSimilar(id)}
                     </ul>
@@ -237,36 +237,7 @@ async function showPopup(id) {
     })
 }
 
-
-
-// render genres
-function getGenre(genres) {
-    let str = "";
-    genres.forEach(genre => {
-        str += `<span>${genre.name}</span>`
-    })
-    return str;
-}
-
-// render cast
-function getCast(cast) {
-    let str = "";
-    cast.forEach(actor => {
-        str += `
-            <li>
-                <img src="${IMGPATH +`${actor.profile_path? actor.profile_path : '/vQs0SFbMAZsvDF3aGtrVtDRmrl2.jpg'}`}"
-                    alt="${actor.name}">
-                <h5>
-                    ${actor.name.split(/\s+/)[0]} <br>
-                    ${actor.name.split(/\s+/)[1]}
-                </h5>
-            </li>
-        `
-    });
-    return str
-}
-
-// guess what u like
+// u might also like
 async function getSimilar(id) {
     const url = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=d0971917ed87f0e2070a34523ce6a2fc&language=en-US&page=1`
     const respData = await getTMDBDataById(url);
@@ -296,6 +267,36 @@ async function getSimilar(id) {
 
     return str;
 }
+
+// render genres
+function getGenre(genres) {
+    let str = "";
+    genres.forEach(genre => {
+        str += `<span>${genre.name}</span>`
+    })
+    return str;
+}
+
+// render cast
+function getCast(cast) {
+    let str = "";
+    cast.forEach(actor => {
+        console.log(actor);
+        str += `
+            <li>
+                <img src="${IMGPATH +`${actor.profile_path? actor.profile_path : '/vQs0SFbMAZsvDF3aGtrVtDRmrl2.jpg'}`}"
+                    alt="${actor.name}">
+                <h5>
+                    ${actor.name.split(/\s+/)[0]} <br>
+                    ${actor.name.split(/\s+/)[1]}
+                </h5>
+            </li>
+        `
+    });
+    return str
+}
+
+
 
 // star rated
 function getStar(point) {
