@@ -116,18 +116,21 @@ header {
 
 .movies-container .sidebarBtn{
     position: fixed;
+    top: 0;
     left: 0;
-    height: 2rem;
+    padding: .5rem;
     color: white;
     background: transparent;
     border: none;
     cursor: pointer;
     display: none;
     transition: 1s;
+    font-size: 1.2rem;
 }
 
 .sidebar{
     position: fixed;
+    top: 0;
     left: -150px;
     transition: 1s;
     margin: 0;
@@ -582,11 +585,11 @@ iframe{
 
 /* guess what u like */
 
-.similar h4{
+.recommendations h4{
     color: #708ED2;
 }
 
-.similar .similar-movie {
+.recommendations .recommendations-movie {
     display: flex;
     list-style-type: none;
     padding: 0;
@@ -594,7 +597,7 @@ iframe{
     overflow-x: scroll;
 }
 
-.similar-movie li {
+.recommendations-movie li {
     min-width: 100px;
     margin-right: 4%;
     border-radius: 5px;
@@ -603,7 +606,7 @@ iframe{
     flex-wrap: wrap;
 }
 
-.similar-movie .movie-info{
+.recommendations-movie .movie-info{
     background: #373b69;
     padding: .5rem;
 }

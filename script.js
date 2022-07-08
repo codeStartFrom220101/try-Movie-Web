@@ -126,6 +126,9 @@ document.addEventListener('scroll', function () {
 
 // sidebar searchBy
 sidebar.addEventListener('click', async (e) => {
+    if(e.target.nodeName !== 'LI'){
+        return;
+    }
     page = 1;
     movieList.innerHTML = '';
     searchBy = e.target.closest('li').dataset.search;
@@ -201,16 +204,16 @@ async function showPopup(id) {
                         ${getCast(credits.cast)}
                     </ul>
                 </div>
-                <div class="similar">
+                <div class="recommendations">
                     <h4>You Might Also Like</h4>
-                    <ul class="similar-movie">
-                        ${await getSimilar(id)}
+                    <ul class="recommendations-movie">
+                        ${await getRecommendations(id)}
                     </ul>
                 </div>
             </div>
         </div>
     `
-
+    https://api.themoviedb.org/3/movie/278/recommendations?api_key=d0971917ed87f0e2070a34523ce6a2fc&language=en-US&page=1
     // get trailer
     trailerBtn.addEventListener('click', async () => {
         const id = movie.id;
@@ -237,8 +240,8 @@ async function showPopup(id) {
 
     });
 
-    const similarMovie = movieDetails.querySelector('.similar-movie');
-    similarMovie.addEventListener('click', (e) => {
+    const recommendationsMovie = movieDetails.querySelector('.recommendations-movie');
+    recommendationsMovie.addEventListener('click', (e) => {
         const id = e.target.dataset.id;
         console.log(id);
         if (id) {
@@ -248,8 +251,8 @@ async function showPopup(id) {
 }
 
 // u might also like
-async function getSimilar(id) {
-    const url = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=d0971917ed87f0e2070a34523ce6a2fc&language=en-US&page=1`
+async function getRecommendations(id) {
+    const url = `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=d0971917ed87f0e2070a34523ce6a2fc&language=en-US&page=1`
     const respData = await getTMDBDataById(url);
     console.log(respData);
     const movies = respData.results;
