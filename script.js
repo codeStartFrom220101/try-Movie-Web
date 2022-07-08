@@ -15,6 +15,9 @@ const popup = document.querySelector('.popup');
 const movieDetails = document.querySelector('.movie-details-container');
 const trailerBtn = document.querySelector('.trailer-btn');
 const trailerContainer = document.querySelector('.trailer-container');
+
+
+
 let sidebarMove = 'off';
 let searchBy = 'popular';
 let page = 1;
@@ -111,6 +114,13 @@ sidebarBtn.addEventListener('click', () => {
         sidebar.classList.remove('active');
         sidebarBtn.classList.remove('active');
         sidebarMove = 'off'
+    }
+})
+
+document.addEventListener('scroll', function () {
+    if (sidebarMove === 'on') {
+        sidebar.classList.remove('active');
+        sidebarBtn.classList.remove('active');
     }
 })
 

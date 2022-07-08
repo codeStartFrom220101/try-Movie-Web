@@ -483,15 +483,6 @@ header {
     .actor li{
         margin-right: 10%;
     }
-
-    /* .actor li img{
-        width: 60px;
-        height: 60px;
-    }
-
-    .actor li h5{
-        width: 60px;
-    } */
 }
 
 [class^="show_rated_"]{
