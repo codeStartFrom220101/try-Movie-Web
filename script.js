@@ -7,6 +7,7 @@ const search = document.querySelector('.search');
 const searchBtn = document.querySelector('.searchBtn');
 const searchTerm = document.querySelector('.searchTerm');
 const sidebarBtn = document.querySelector('.sidebarBtn');
+const topbar = document.querySelector('.topbar');
 const sidebar = document.querySelector('.sidebar');
 const getMoreBtn = movieList.querySelector('.get-more-btn');
 const popupClose = document.querySelector('.popup-close');
@@ -34,6 +35,19 @@ async function getTMDBDataById(url) {
     return respData;
 }
 
+// translations
+async function translations(id) {
+    const url = `https://api.themoviedb.org/3/movie/${id}/translations?api_key=d0971917ed87f0e2070a34523ce6a2fc`
+    const movie = await getTMDBDataById(url);
+    const movieTW = movie.translations.filter(movie => movie.iso_3166_1 === 'TW');
+    console.log(movieTW[0].data.title);
+        
+    let str = `123`
+    
+    return str;
+} 
+
+translations(278);
 getTMDBData(TMBDUrl);
 
 function showMovies(movies) {
@@ -46,12 +60,13 @@ function showMovies(movies) {
             vote_average,
             id
         } = movie;
+        const img = IMGPATH + poster_path;
         const movieEl = document.createElement('li')
         movieEl.dataset.id = id;
         movieEl.innerHTML = `
-                <img src="${IMGPATH + `${poster_path? poster_path : '/vQs0SFbMAZsvDF3aGtrVtDRmrl2.jpg'}`}" alt="${title}">
+                <img src="${img}" alt="${title}">
                 <div class="movie-info">
-                    <h3>${title}</h3>
+                    <h3>${title}</h3> 
                     <span class="${getClassByRate(vote_average)}">${vote_average}</span>
                 </div>
         `
@@ -79,6 +94,7 @@ function getClassByRate(point) {
         return 'red'
     }
 }
+
 
 search.addEventListener('submit', searchMovies);
 
@@ -124,8 +140,11 @@ document.addEventListener('scroll', function () {
     }
 })
 
-// sidebar searchBy
-sidebar.addEventListener('click', async (e) => {
+// bar searchBy
+topbar.addEventListener('click', barSearchBy);
+sidebar.addEventListener('click', barSearchBy);
+
+async function barSearchBy(e) {
     if(e.target.nodeName !== 'LI'){
         return;
     }
@@ -134,7 +153,7 @@ sidebar.addEventListener('click', async (e) => {
     searchBy = e.target.closest('li').dataset.search;
     const url = `https://api.themoviedb.org/3/movie/${searchBy}?api_key=d0971917ed87f0e2070a34523ce6a2fc&language=en-US&page=1`
     getTMDBData(url);
-})
+}
 
 // click to close popup
 popupClose.addEventListener('click', () => {
