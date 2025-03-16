@@ -1,0 +1,314 @@
+// 🌈 主要配色
+$background-color: #333; // 整體背景
+$text-color: #fffff0; // 主要文字顏色
+$primary-color: #666; // 主要區塊背景
+$secondary-color: #888; // 按鈕 & hover 效果
+$card-bg: #444; // 卡片背景
+$card-hover-bg: #555; // 滑鼠懸停的背景
+$border-radius: 10px;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+// 🎬 Header 樣式
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: $primary-color;
+
+  .logo a {
+    color: $text-color;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    background: $card-bg;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+
+    input {
+      border: none;
+      outline: none;
+      padding: 0.5rem;
+      font-size: 1rem;
+      background: transparent;
+      color: $text-color;
+    }
+
+    .searchBtn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      color: $secondary-color;
+      cursor: pointer;
+    }
+  }
+}
+
+// 🏆 選單導航
+.topbar,
+.sidebar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+
+  li {
+    padding: 0.5rem 1rem;
+    background: $primary-color;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: 0.3s;
+    color: $text-color;
+
+    &:hover {
+      background: $secondary-color;
+    }
+  }
+}
+
+// 🎬 Slider 輪播區塊
+.movie-slider {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  overflow: hidden;
+  padding: 1rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: $text-color;
+  }
+
+  .slider-container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 1rem;
+
+    .slider-item {
+      min-width: 250px;
+      border-radius: $border-radius;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: $border-radius;
+      }
+
+      .movie-title {
+        text-align: center;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        color: $text-color;
+      }
+    }
+  }
+
+  .prev-btn,
+  .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: $text-color;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  .prev-btn {
+    left: 10px;
+  }
+
+  .next-btn {
+    right: 10px;
+  }
+}
+
+// 🎥 電影清單
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+
+  li {
+    background: $card-bg;
+    border-radius: $border-radius;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background: $card-hover-bg;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .movie-info {
+      padding: 1rem;
+      text-align: center;
+
+      h3 {
+        font-size: 1.2rem;
+        color: $text-color;
+      }
+
+      .rating {
+        font-size: 1rem;
+        font-weight: bold;
+        color: $text-color;
+      }
+    }
+  }
+}
+
+// 📂 電影分類區塊
+.genres-section {
+  margin: 2rem;
+  padding: 1rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+  text-align: center;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: $text-color;
+  }
+
+  .genres-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+
+    li {
+      background: $primary-color;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: 0.3s;
+      color: $text-color;
+
+      &:hover {
+        background: $secondary-color;
+      }
+    }
+  }
+}
+
+// 📡 串流平台區塊
+.streaming-platforms {
+  margin: 2rem;
+  padding: 1rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+  text-align: center;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: $text-color;
+  }
+
+  .platforms-list {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    li {
+      padding: 0.5rem 1rem;
+      background: $primary-color;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: 0.3s;
+      color: $text-color;
+
+      &:hover {
+        background: $secondary-color;
+      }
+    }
+  }
+}
+
+// ❤️ 收藏清單
+.favorites-section {
+  margin: 2rem;
+  padding: 1rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+  text-align: center;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: $text-color;
+  }
+
+  .favorites-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      background: $primary-color;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: 0.3s;
+      color: $text-color;
+
+      &:hover {
+        background: $secondary-color;
+      }
+    }
+  }
+}
