@@ -1,205 +1,94 @@
-const API_KEY = "d0971917ed87f0e2070a34523ce6a2fc";
-const TMDB_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`;
-const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
+const searchForm = document.querySelector('.search');
+const searchBtn = document.querySelector('.searchBtn');
+const searchInput = document.querySelector('.searchTerm');
+
+// 监听 searchBtn 的点击事件，切换 active 类
+searchBtn.addEventListener('click', () => {
+    searchForm.classList.toggle('active'); // 切换 active 类
+});
+
+// 监听文档的点击事件
+document.addEventListener('click', (event) => {
+    // 如果点击的不是 .search 或其中的元素
+    if (!searchForm.contains(event.target)) {
+        searchForm.classList.remove('active'); // 移除 active 类
+    }
+});
+
+// 防止点击 input 时触发移除 active 的操作
+searchInput.addEventListener('click', (event) => {
+    event.stopPropagation(); // 阻止事件冒泡
+});
 
 
-const movieList = document.querySelector(".movie-list");
-const search = document.querySelector(".search");
-const searchBtn = document.querySelector(".searchBtn");
-const searchTerm = document.querySelector(".searchTerm");
-const sidebarBtn = document.querySelector(".sidebarBtn");
-const topbar = document.querySelector(".topbar");
-const sidebar = document.querySelector(".sidebar");
-const getMoreBtn = movieList.querySelector(".get-more-btn");
-const popupClose = document.querySelector(".popup-close");
-const popupContainer = document.querySelector(".popup-container");
-const popup = document.querySelector(".popup");
-const movieDetails = document.querySelector(".movie-details-container");
-const trailerBtn = document.querySelector(".trailer-btn");
-const trailerContainer = document.querySelector(".trailer-container");
+let currentIndex = 0;
+const slides = document.querySelectorAll('.slider-item');
+const totalSlides = slides.length;
+const sliderTrack = document.querySelector('.slider-track');
 
-let sidebarMove = "off";
-let searchBy = "popular";
-let page = 1;
 
-// 取得 TMDB 資料
-async function getTMDBData(url) {
-    const resp = await fetch(url);
-    const respData = await resp.json();
-    console.log(respData.results);
+
+// 切换到下一张
+document.querySelector('.next-btn').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlider();
+});
+
+// 切换到上一张
+document.querySelector('.prev-btn').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateSlider();
+});
+
+// 更新轮播位置
+function updateSlider() {
+    const offset = -100 * currentIndex; // 每个轮播项宽度为 100vw
+    sliderTrack.style.transform = `translateX(${offset}vw)`;
+}
+
+const apiKey = "d0971917ed87f0e2070a34523ce6a2fc";
+const movieRow = document.querySelector('.movie-row');
+const nextBtn = document.querySelector('.next-btn');
+
+// 获取流行电影数据
+async function fetchTopMovies() {
+    const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&page=1&per_page=30`);
+    const data = await response.json();
+    const movies = data.results;
+    console.log(movies);
     
-    showMovies(respData.results);
+    renderMovies(movies);
 }
 
-// 透過 ID 取得 TMDB 資料
-async function getTMDBDataById(url) {
-    const resp = await fetch(url);
-    return await resp.json();
-}
+// 渲染电影信息到页面
+function renderMovies(movies) {
+    movieRow.innerHTML = ''; // 清空当前内容
 
-// 取得電影翻譯
-async function getTranslation(id) {
-    const url = `https://api.themoviedb.org/3/movie/${id}/translations?api_key=${API_KEY}`;
-    const movie = await getTMDBDataById(url);
-    const movieTW = movie.translations.filter((m) => {
-        m.iso_3166_1 === "TW"
-        console.log(m);
-    });
-    return movieTW.length ? movieTW[0].data.title : "";
-}
+    movies.forEach((movie, index) => {
+        const movieElement = document.createElement('div');
+        movieElement.classList.add('movie-item');
 
-// 顯示電影清單
-function showMovies(movies) {
-    movies.forEach(({ poster_path, title, vote_average, id }) => {
-        const img = IMG_PATH + poster_path;
-        const movieEl = document.createElement("li");
-        movieEl.dataset.id = id;
-        movieEl.innerHTML = `
-            <img src="${img}" alt="${title}">
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+        movieElement.innerHTML = `
+            <div class="movie-rank-block">
+                <div class="movie-rank">${index + 1}</div>
+            </div>
+            <div class="img-block">
+                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+                <div class="movie-info">最新上映</div>
             </div>
         `;
-        movieList.appendChild(movieEl);
+
+        movieRow.appendChild(movieElement);
     });
-
-    if (searchBy !== "search") {
-        movieList.appendChild(getMoreBtn);
-    }
 }
 
-// 加載更多電影
-getMoreBtn.addEventListener("click", () => {
-    page++;
-    const url = `https://api.themoviedb.org/3/movie/${searchBy}?api_key=${API_KEY}&language=en-US&page=${page}`;
-    getTMDBData(url);
+// 初始化
+fetchTopMovies();
+
+// 实现右侧滚动按钮功能
+nextBtn.addEventListener('click', () => {
+    movieRow.scrollBy({
+        left: 300, // 每次点击向右滚动300px
+        behavior: 'smooth'
+    });
 });
-
-// 根據評分設置顏色
-function getClassByRate(score) {
-    return score >= 8 ? "green" : score >= 6 ? "blue" : "red";
-}
-
-// 搜索電影
-search.addEventListener("submit", searchMovies);
-searchBtn.addEventListener("click", searchMovies);
-
-function searchMovies(e) {
-    e.preventDefault();
-    searchBy = "search";
-    movieList.innerHTML = "";
-    const term = searchTerm.value;
-    if (term) {
-        getTMDBData(SEARCH_API + term + "language=zh-TW");
-        searchTerm.value = "";
-    }
-}
-
-// 側邊欄切換
-sidebarBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
-    sidebarBtn.classList.toggle("active");
-    sidebarMove = sidebarMove === "off" ? "on" : "off";
-});
-
-// 滾動時自動關閉側邊欄
-document.addEventListener("scroll", () => {
-    if (sidebarMove === "on") {
-        sidebar.classList.remove("active");
-        sidebarBtn.classList.remove("active");
-    }
-});
-
-// 篩選電影類型
-topbar.addEventListener("click", barSearchBy);
-sidebar.addEventListener("click", barSearchBy);
-
-async function barSearchBy(e) {
-    if (e.target.nodeName !== "LI") return;
-    page = 1;
-    movieList.innerHTML = "";
-    searchBy = e.target.closest("li").dataset.search;
-    getTMDBData(`https://api.themoviedb.org/3/movie/${searchBy}?api_key=${API_KEY}&language=en-US&page=1`);
-}
-
-// 關閉彈出視窗
-popupClose.addEventListener("click", () => {
-    popupContainer.classList.add("hidden");
-    movieDetails.innerHTML = "";
-});
-
-// 點擊電影顯示詳細資訊
-movieList.addEventListener("click", (e) => {
-    if (e.target.nodeName !== "IMG") return;
-    showPopup(e.target.closest("li").dataset.id);
-});
-
-// 顯示電影詳細資訊
-async function showPopup(id) {
-    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits`;
-    const { poster_path, backdrop_path, title, overview, genres, credits, vote_average, vote_count } = await getTMDBDataById(url);
-
-    popupContainer.classList.remove("hidden");
-    movieDetails.innerHTML = `
-        <div class="img" style="background-image:linear-gradient(to bottom, rgba(0,0,0,0), #22254b), url('${IMG_PATH + backdrop_path}');"></div>
-        <div class="movie-details">
-            <div class="movie-details-header">
-                <img src="${IMG_PATH + poster_path}" alt="${title}">
-                <div class="movie-title">
-                    <div class="movie-point">
-                        <div class="point">${vote_average}</div>
-                        <div><div class="star"><i class="${getStar(vote_average)}"></i></div><div class="vote-count">${vote_count}</div></div>
-                    </div>
-                    <div class="name-genres"><h3>${title}</h3><div class="genres">${getGenre(genres)}</div></div>
-                </div>
-            </div>
-            <div class="movie-details-body">
-                <div class="overview"><p>${overview}</p></div>
-                <div class="cast"><h4>CAST</h4><ul class="actor">${getCast(credits.cast)}</ul></div>
-                <div class="recommendations"><h4>You Might Also Like</h4><ul class="recommendations-movie">${await getRecommendations(id)}</ul></div>
-            </div>
-        </div>
-    `;
-}
-
-// 取得推薦電影
-async function getRecommendations(id) {
-    const url = `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`;
-    const { results } = await getTMDBDataById(url);
-
-    return results.map(({ poster_path, title, id, vote_average }) => `
-        <li>
-            <img src="${IMG_PATH + (poster_path ? poster_path : "/vQs0SFbMAZsvDF3aGtrVtDRmrl2.jpg")}" alt="${title}" data-id="${id}">
-            <div class="movie-info"><h3>${title}</h3><span class="${getClassByRate(vote_average)}">${vote_average}</span></div>
-        </li>
-    `).join("");
-}
-
-// 取得電影類型
-function getGenre(genres) {
-    return genres.map((genre) => `<span>${genre.name}</span>`).join("");
-}
-
-// 取得演員資訊
-function getCast(cast) {
-    return cast.map(({ profile_path, name }) => `
-        <li>
-            <img src="${IMG_PATH + (profile_path ? profile_path : "/vQs0SFbMAZsvDF3aGtrVtDRmrl2.jpg")}" alt="${name}">
-            <h5>${name.split(" ")[0]}<br>${name.split(" ")[1] || ""}</h5>
-        </li>
-    `).join("");
-}
-
-
-
-
-// star rated
-function getStar(point) {
-    let star = Math.floor(point) / 2
-    let firstNum = Math.floor(star);
-    let secondNum = star * 10 % 10;
-    
-    return `show_rated_${firstNum}${secondNum == 0 ? "" : `_${secondNum}`}`;
-}

@@ -20,107 +20,165 @@
 </head>
 
 <body>
-
-    <!-- 📺 Trailer Modal -->
-    <div class="trailer-container hidden">
-        <button class="trailer-close"><i class="fa-solid fa-xmark"></i></button>
-        <iframe width="1280" height="720" src="https://www.youtube.com/embed/Rf8LAYJSOL8"
-            title="Marvel Studios’ Doctor Strange in the Multiverse of Madness | Final Trailer" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-    </div>
-
-    <!-- 🏠 Header -->
     <header>
-        <h1 class="logo"><a href="index.html">TMDB</a></h1>
-        <form class="search">
-            <input type="text" placeholder="Search movies..." class="searchTerm">
-            <button type="submit" class="searchBtn">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+        <!-- Logo 和 searchBy 导航为一个区块 -->
+        <div class="header-left">
+            <h1 class="logo"><a href="index.html">TMDB</a></h1>
+
+            <!-- 添加電影與影集的選項 -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" id="movies" data-searchBy="movie">電影</a></li>
+                    <li><a href="#" id="tv-shows" data-searchBy="tv">影集</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 替换 form 为 div -->
+        <div class="header-right">
+            <div class="search">
+                <button type="button" class="searchBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <input type="text" placeholder="搜尋電影..." class="searchTerm">
+            </div>
+        </div>
     </header>
 
-    <!-- 🎬 Main Movie Section -->
-    <div class="movies-container">
+
+    <!-- Main 或 Container 代替了 movie-container -->
+    <main class="container">
+        <!-- 🎬 Slider 輪播區塊 -->
         <section class="movie-slider">
-            <h2>🔥 現正熱映</h2>
             <div class="slider-container">
                 <div class="slider-track">
-                    <!-- 這裡由 JS 動態插入 10 部現正熱映的電影 -->
+                    <div class="slider-item">1</div>
+                    <div class="slider-item">2</div>
+                    <div class="slider-item">3</div>
                 </div>
             </div>
             <button class="prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="next-btn"><i class="fa-solid fa-chevron-right"></i></button>
         </section>
 
-        <!-- 🏆 Top Navigation -->
-        <ul class="topbar">
-            <li data-search="now_playing">🎥 現正熱映</li>
-            <li data-search="popular">🔥 最有人氣</li>
-            <li data-search="top_rated">⭐ 評分最佳</li>
-            <li data-search="upcoming">⏳ 即將上映</li>
-        </ul>
-
-        <!-- 📂 Sidebar Button -->
-        <button class="sidebarBtn"><i class="fa-solid fa-bars"></i></button>
-
-        <!-- 📂 Sidebar Navigation -->
-        <ul class="sidebar">
-            <li data-search="now_playing">🎥 現正熱映</li>
-            <li data-search="popular">🔥 最有人氣</li>
-            <li data-search="top_rated">⭐ 評分最佳</li>
-            <li data-search="upcoming">⏳ 即將上映</li>
-        </ul>
-
-        <!-- 🎭 搜尋演員 -->
-        <section class="actors-section">
-            <h2>🎭 熱門演員</h2>
-            <ul class="actors-list">
-                <!-- 這裡透過 JS 動態插入 -->
-            </ul>
+        <section class="top-movies">
+            <h2>榮登本日台灣 Top 10 電影</h2>
+            <div class="movie-row">
+                <div class="movie-item">
+                    <div class="movie-rank-block">
+                        <div class="movie-rank">1</div>
+                    </div>
+                    <div class="img-block">
+                        <img src="" alt="Movie 1">
+                        <div class="movie-info">最新上映</div>
+                    </div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">2</div>
+                    <img src="" alt="Movie 2">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">3</div>
+                    <img src="" alt="Movie 3">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">4</div>
+                    <img src="" alt="Movie 4">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">5</div>
+                    <img src="" alt="Movie 5">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">6</div>
+                    <img src="" alt="Movie 6">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">7</div>
+                    <img src="" alt="Movie 7">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">8</div>
+                    <img src="" alt="Movie 8">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">9</div>
+                    <img src="" alt="Movie 9">
+                    <div class="movie-info">最新上映</div>
+                </div>
+                <div class="movie-item">
+                    <div class="movie-rank">10</div>
+                    <img src="" alt="Movie 10">
+                    <div class="movie-info">最新上映</div>
+                </div>
+            </div>
+            <button class="next-btn">›</button>
         </section>
 
-        <!-- 📡 串流平台查詢 -->
-        <section class="streaming-platforms">
-            <h2>📡 觀看平台</h2>
-            <ul class="platforms-list">
-                <!-- 這裡透過 JS 動態插入 -->
-            </ul>
+
+        <section class="movie-section">
+            <h2>最新上线</h2>
+            <div class="movie-row">
+                <div class="movie-item">item1</div>
+                <div class="movie-item">item2</div>
+                <div class="movie-item">item3</div>
+                <div class="movie-item">item4</div>
+                <div class="movie-item">item5</div>
+                <div class="movie-item">item6</div>
+                <div class="movie-item">item7</div>
+                <div class="movie-item">item8</div>
+                <div class="movie-item">item9</div>
+                <div class="movie-item">item10</div>
+                <div class="movie-item">item11</div>
+                <div class="movie-item">item12</div>
+                <div class="movie-item">item13</div>
+                <div class="movie-item">item14</div>
+                <div class="movie-item">item15</div>
+                <div class="movie-item">item16</div>
+                <div class="movie-item">item17</div>
+                <div class="movie-item">item18</div>
+                <div class="movie-item">item19</div>
+                <div class="movie-item">item20</div>
+            </div>
         </section>
 
-        <!-- 📂 電影類型分類 -->
-        <section class="genres-section">
-            <h2>📂 電影類型</h2>
-            <ul class="genres-list">
-                <!-- 這裡透過 JS 動態插入 -->
-            </ul>
+        <section class="movie-section">
+            <h2>热门推荐</h2>
+            <div class="movie-row">
+                <div class="movie-item">item1</div>
+                <div class="movie-item">item2</div>
+                <div class="movie-item">item3</div>
+                <div class="movie-item">item4</div>
+                <div class="movie-item">item5</div>
+                <div class="movie-item">item6</div>
+                <div class="movie-item">item7</div>
+                <div class="movie-item">item8</div>
+                <div class="movie-item">item9</div>
+                <div class="movie-item">item10</div>
+                <div class="movie-item">item11</div>
+                <div class="movie-item">item12</div>
+                <div class="movie-item">item13</div>
+                <div class="movie-item">item14</div>
+                <div class="movie-item">item15</div>
+                <div class="movie-item">item16</div>
+                <div class="movie-item">item17</div>
+                <div class="movie-item">item18</div>
+                <div class="movie-item">item19</div>
+                <div class="movie-item">item20</div>
+            </div>
         </section>
 
-        <!-- ❤️ 收藏清單 -->
-        <section class="favorites-section">
-            <h2>❤️ 我的收藏</h2>
-            <ul class="favorites-list">
-                <!-- 這裡透過 JS 動態插入 -->
-            </ul>
-        </section>
 
-        <!-- 🎥 電影清單 -->
-        <ul class="movie-list">
-            <li class="get-more-btn"><button>Load More Movies</button></li>
-        </ul>
-
-    </div>
-
-    <!-- 📰 Movie Popup Modal -->
-    <div class="popup-container hidden">
-        <div class="popup">
-            <button class="popup-close"><i class="fa-solid fa-xmark"></i></button>
-            <button class="trailer-btn"><i class="fa-solid fa-video"></i> Final Trailer</button>
-
-            <div class="movie-details-container" data-id=""></div>
-        </div>
-    </div>
+        <!-- 其他內容區塊 -->
+        <!-- 這些區塊會根據你的網站內容進行填充 -->
+    </main>
 
 </body>
 

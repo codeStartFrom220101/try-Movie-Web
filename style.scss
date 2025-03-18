@@ -1,6 +1,8 @@
 // 🌈 主要配色
-$background-color: #333; // 整體背景
-$text-color: #fffff0; // 主要文字顏色
+$background-color: #141414; // 整體背景
+$text-color: #ccc; // 主要文字
+$text-hover-color: #aaa; // hover
+$text-active-color: #fffff0;
 $primary-color: #666; // 主要區塊背景
 $secondary-color: #888; // 按鈕 & hover 效果
 $card-bg: #444; // 卡片背景
@@ -26,8 +28,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: $primary-color;
+  background: $background-color;
 
+  // Logo 样式
   .logo a {
     color: $text-color;
     font-size: 2rem;
@@ -35,138 +38,298 @@ header {
     text-decoration: none;
   }
 
+  // Header 左侧区块（Logo 和 Navigation）
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  // Header 右侧区块（Search）
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+
+  // Navigation 样式（電影、影集）
+  .main-nav {
+    ul {
+      display: flex;
+
+      li {
+        list-style: none;
+      }
+
+      a {
+        color: $text-color;
+        text-decoration: none;
+        padding: 0.5rem;
+        border-radius: $border-radius;
+        transition: 0.3s;
+
+        &:hover {
+          color: $text-hover-color;
+        }
+      }
+    }
+  }
+
+  // 搜索框样式
   .search {
     display: flex;
     align-items: center;
-    background: $card-bg;
+    background: $background-color;
     padding: 0.5rem;
     border-radius: $border-radius;
+    border: 1px solid transparent;
 
     input {
       border: none;
       outline: none;
-      padding: 0.5rem;
+      width: 0;
+      padding: 0.5rem 0;
       font-size: 1rem;
       background: transparent;
       color: $text-color;
+      transition: all .3s ease;
     }
 
     .searchBtn {
       border: none;
       background: none;
       font-size: 1.5rem;
-      color: $secondary-color;
+      color: $text-color;
       cursor: pointer;
+      transition: all .3s ease;
     }
-  }
-}
 
-// 🏆 選單導航
-.topbar,
-.sidebar {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background: $card-bg;
-  border-radius: $border-radius;
+    &.active {
+      border: 1px solid $text-color;
 
-  li {
-    padding: 0.5rem 1rem;
-    background: $primary-color;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition: 0.3s;
-    color: $text-color;
+      input {
+        width: 200px;
+        padding: 0.5rem;
+      }
 
-    &:hover {
-      background: $secondary-color;
+      .searchBtn {
+        color: $secondary-color;
+      }
     }
   }
 }
 
 // 🎬 Slider 輪播區塊
-.movie-slider {
+/* 主要樣式保持不變，下面是針對 slider 的樣式 */
+.container {
+
+  .movie-slider {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* 设置为视口高度 */
+    overflow: hidden;
+    background: $card-bg;
+    /* 背景色，可根据需要修改 */
+    border-radius: $border-radius;
+
+    .slider-container {
+      display: flex;
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .slider-track {
+        display: flex;
+        position: absolute;
+        width: 300%;
+        /* 假设有 3 个轮播项 */
+        transition: transform 0.5s ease-in-out;
+        /* 平滑过渡效果 */
+
+        .slider-item {
+          width: 100%;
+          /* 每个轮播项占满 100% */
+          height: 100%;
+          background-color: lightgray;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 2rem;
+          color: #fff;
+        }
+
+      }
+
+    }
+
+    .prev-btn,
+    .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+  }
+}
+
+// Top Movies Section
+.top-movies {
   position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 2rem auto;
-  overflow: hidden;
-  padding: 1rem;
-  background: $card-bg;
-  border-radius: $border-radius;
+  margin: 2rem 0;
 
   h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
     color: $text-color;
+    font-size: 2rem;
+    margin-bottom: 1rem;
   }
 
-  .slider-container {
+  .movie-row {
     display: flex;
-    overflow: hidden;
-    width: 100%;
-    position: relative;
-  }
+    overflow-x: scroll;
+    gap: 1rem; // 项目间距
+    padding-bottom: 1rem;
+    height: 300px;
 
-  .slider-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    gap: 1rem;
-
-    .slider-item {
-      min-width: 250px;
-      border-radius: $border-radius;
-      overflow: hidden;
+    .movie-item {
+      position: relative;
+      width: 400px;
+      height: 300px; // 每个项的高度
+      background-color: $background-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 1.2rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.3s ease;
+      position: relative;
 
-      &:hover {
-        transform: scale(1.1);
+      .movie-rank-block {
+        position: relative;
+        width: 50%;
+
+        .movie-rank {
+          position: absolute;
+          top: 50%;
+          right: -38px;
+          transform: translateY(-50%);
+          color: $text-hover-color;
+          font-size: 350px;
+          font-weight: bolder;
+        }
       }
 
-      img {
-        width: 100%;
-        height: 350px;
-        object-fit: cover;
-        border-radius: $border-radius;
+      .img-block {
+        width: 50%;
+        position: relative;
+        height: 100%;
+
+        img {
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .movie-info {
+          position: absolute;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: rgba(0, 0, 0, 0.5);
+          padding: 0.5rem;
+          font-size: 1rem;
+          border-radius: 5px;
+          color: white;
+        }
       }
 
-      .movie-title {
-        text-align: center;
-        font-size: 1rem;
-        margin-top: 0.5rem;
-        color: $text-color;
-      }
     }
   }
 
-  .prev-btn,
   .next-btn {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    border: none;
-    color: $text-color;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.9);
-    }
-  }
-
-  .prev-btn {
-    left: 10px;
-  }
-
-  .next-btn {
     right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transform: translateY(-50%);
   }
 }
+
+
+// 主要颜色和样式
+$background-color: #141414;
+$text-color: #ccc;
+$card-bg: #444;
+$border-radius: 10px;
+
+.movie-section {
+  margin: 2rem 0;
+
+  h2 {
+    color: $text-color;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.movie-row {
+  display: flex;
+  overflow-x: scroll; // 横向滚动
+  gap: 1rem; // 项目间距
+  padding-bottom: 1rem; // 保证底部有空间
+
+  /* 让滚动条不显示 */
+  ::-webkit-scrollbar {
+    height: 8px; // 设置滚动条的高度
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $card-bg;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+}
+
+.movie-item {
+  flex: 0 0 auto; // 防止项目伸展
+  width: 200px; // 项目宽度
+  height: 300px; // 项目高度
+  background-color: $card-bg;
+  border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $text-color;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease; // 平滑的悬停效果
+
+  &:hover {
+    transform: scale(1.05); // 悬停时放大
+  }
+}
+
 
 // 🎥 電影清單
 .movie-list {
